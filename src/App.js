@@ -1,50 +1,25 @@
-import React, {
-    useEffect,
-    useRef,
-    useState
-} from "react";
-
-import {
-    AnimatePresence,
-    motion
-} from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import music from "./music/asad.mp3";
 import "./App.css";
+
+// =========================================================
+// TO'Y SANASI
+// 30-SENTABR 2026 — 18:00
+// =========================================================
+
+const WEDDING_DATE = new Date("2026-09-30T18:00:00");
 
 function App() {
     const [opened, setOpened] = useState(false);
     const [opening, setOpening] = useState(false);
 
-    // ===============================
+    // =====================================================
     // MUSIC
-    // ===============================
+    // =====================================================
 
     const audioRef = useRef(null);
-
     const [isPlaying, setIsPlaying] = useState(false);
-
-    // ===============================
-    // COUNTDOWN
-    // ===============================
-
-    const [activeBoxes, setActiveBoxes] = useState([]);
-
-    const [timeLeft, setTimeLeft] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    });
-
-    // ===============================
-    // TO'Y SANASI
-    // ===============================
-
-    const weddingDate = new Date("2026-09-30T18:00:00");
-
-    // ===============================
-    // MUSIC
-    // ===============================
 
     const toggleMusic = async () => {
         const audio = audioRef.current;
@@ -64,17 +39,25 @@ function App() {
         }
     };
 
-    // ===============================
+    // =====================================================
     // COUNTDOWN
-    // ===============================
+    // =====================================================
+
+    const [activeBoxes, setActiveBoxes] = useState([]);
+
+    const [timeLeft, setTimeLeft] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    });
 
     useEffect(() => {
         const updateCountdown = () => {
             const now = new Date();
 
             const difference =
-                weddingDate.getTime() -
-                now.getTime();
+                WEDDING_DATE.getTime() - now.getTime();
 
             if (difference <= 0) {
                 setTimeLeft({
@@ -89,20 +72,15 @@ function App() {
 
             setTimeLeft({
                 days: Math.floor(
-                    difference /
-                    (1000 * 60 * 60 * 24)
+                    difference / (1000 * 60 * 60 * 24)
                 ),
 
                 hours: Math.floor(
-                    (difference /
-                        (1000 * 60 * 60)) %
-                    24
+                    (difference / (1000 * 60 * 60)) % 24
                 ),
 
                 minutes: Math.floor(
-                    (difference /
-                        (1000 * 60)) %
-                    60
+                    (difference / (1000 * 60)) % 60
                 ),
 
                 seconds: Math.floor(
@@ -121,14 +99,13 @@ function App() {
         return () => clearInterval(timer);
     }, []);
 
-    // ===============================
+    // =====================================================
     // KONVERT OCHILISHI
-    // ===============================
+    // =====================================================
 
     const handleSealClick = () => {
         if (opening || opened) return;
 
-        // Muhr bosilganda musiqa boshlanadi
         const audio = audioRef.current;
 
         if (audio) {
@@ -152,10 +129,9 @@ function App() {
         }, 1300);
     };
 
-    // ===============================
-    // DATE BOSILGANDA
-    // OCHIQ QOLADI
-    // ===============================
+    // =====================================================
+    // COUNTDOWN BOX
+    // =====================================================
 
     const handleBoxClick = (type) => {
         setActiveBoxes((prev) => {
@@ -163,16 +139,9 @@ function App() {
                 return prev;
             }
 
-            return [
-                ...prev,
-                type
-            ];
+            return [...prev, type];
         });
     };
-
-    // ===============================
-    // COUNTDOWN CARD
-    // ===============================
 
     const CountdownBox = ({
                               type,
@@ -180,8 +149,7 @@ function App() {
                               value,
                               icon,
                           }) => {
-        const isActive =
-            activeBoxes.includes(type);
+        const isActive = activeBoxes.includes(type);
 
         return (
             <motion.button
@@ -189,15 +157,10 @@ function App() {
                 className={`date-item ${
                     isActive ? "active" : ""
                 }`}
-                onClick={() =>
-                    handleBoxClick(type)
-                }
-                whileTap={{
-                    scale: 0.97,
-                }}
+                onClick={() => handleBoxClick(type)}
+                whileTap={{ scale: 0.97 }}
             >
                 <div className="date-box">
-
                     <div className="date-icon">
                         {icon}
                     </div>
@@ -215,7 +178,6 @@ function App() {
                             ? value
                             : "• • •"}
                     </div>
-
                 </div>
             </motion.button>
         );
@@ -224,9 +186,9 @@ function App() {
     return (
         <div className="app">
 
-            {/* =================================
-                MUSIC AUDIO
-            ================================= */}
+            {/* =================================================
+                AUDIO
+            ================================================= */}
 
             <audio
                 ref={audioRef}
@@ -237,9 +199,9 @@ function App() {
                 onPause={() => setIsPlaying(false)}
             />
 
-            {/* =================================
-                FIXED MUSIC BUTTON
-            ================================= */}
+            {/* =================================================
+                MUSIC BUTTON
+            ================================================= */}
 
             <button
                 type="button"
@@ -263,13 +225,11 @@ function App() {
                 )}
             </button>
 
-
-            {/* =================================
-                INTRO
-            ================================= */}
+            {/* =================================================
+                INTRO / ENVELOPE
+            ================================================= */}
 
             <AnimatePresence>
-
                 {!opened && (
                     <motion.div
                         className={`intro ${
@@ -277,9 +237,7 @@ function App() {
                                 ? "is-opening"
                                 : ""
                         }`}
-                        initial={{
-                            opacity: 1,
-                        }}
+                        initial={{ opacity: 1 }}
                         exit={{
                             opacity: 0,
                             transition: {
@@ -287,16 +245,16 @@ function App() {
                             },
                         }}
                     >
-
                         <div className="envelope">
 
                             <img
                                 src="/envelope.png"
-                                alt="Envelope"
+                                alt="Taklifnoma konverti"
                                 className="envelope-image"
                             />
 
                             <button
+                                type="button"
                                 className="seal-button"
                                 onClick={
                                     handleSealClick
@@ -304,7 +262,7 @@ function App() {
                                 disabled={opening}
                                 aria-label="Taklifnomani ochish"
                             >
-                                <span className="seal-ripple" />
+                                <span className="seal-ripple"></span>
                             </button>
 
                         </div>
@@ -364,32 +322,25 @@ function App() {
                                 />
                             </>
                         )}
-
                     </motion.div>
                 )}
-
             </AnimatePresence>
 
-
-            {/* =================================
-                INVITATION
-            ================================= */}
+            {/* =================================================
+                MAIN PAGE
+            ================================================= */}
 
             {opened && (
                 <motion.main
                     className="invitation-page"
-                    initial={{
-                        opacity: 0,
-                    }}
-                    animate={{
-                        opacity: 1,
-                    }}
-                    transition={{
-                        duration: 0.5,
-                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
                 >
 
-                    {/* RASM */}
+                    {/* =================================================
+                        MAIN INVITATION IMAGE
+                    ================================================= */}
 
                     <section className="invitation">
 
@@ -401,10 +352,9 @@ function App() {
 
                     </section>
 
-
-                    {/* =================================
-                        DATE
-                    ================================= */}
+                    {/* =================================================
+                        DATE + COUNTDOWN
+                    ================================================= */}
 
                     <section className="date-section">
 
@@ -423,9 +373,9 @@ function App() {
                         </p>
 
                         <div className="date-line">
-                            <span />
+                            <span></span>
                             <b>✦</b>
-                            <span />
+                            <span></span>
                         </div>
 
                         <p className="date-caption">
@@ -469,17 +419,16 @@ function App() {
                         </div>
 
                         <div className="date-line bottom-line">
-                            <span />
+                            <span></span>
                             <b>✦</b>
-                            <span />
+                            <span></span>
                         </div>
 
                     </section>
 
-
-                    {/* =================================
+                    {/* =================================================
                         NAMES
-                    ================================= */}
+                    ================================================= */}
 
                     <section className="invitation">
 
@@ -507,9 +456,7 @@ function App() {
 
                             <div className="parents">
 
-                                <p>
-                                    SON OF
-                                </p>
+                                <p>SON OF</p>
 
                                 <strong>
                                     MR & MRS CH. HUSSAINI
@@ -517,9 +464,7 @@ function App() {
 
                                 <div className="small-line"></div>
 
-                                <p>
-                                    DAUGHTER OF
-                                </p>
+                                <p>DAUGHTER OF</p>
 
                                 <strong>
                                     MR & MRS CH. FAROOQI
@@ -539,7 +484,7 @@ function App() {
                                 mamnun bo‘lamiz
                             </p>
 
-                            <div className="heart">
+                            <div className="invitation-heart">
                                 ♡
                             </div>
 
@@ -552,15 +497,25 @@ function App() {
                         </div>
 
                     </section>
+
+                    {/* =================================================
+                        CALENDAR
+                    ================================================= */}
+
                     <motion.section
                         className="section italian_calendar"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        initial={{
+                            opacity: 0,
+                            y: 40,
+                        }}
+                        whileInView={{
+                            opacity: 1,
+                            y: 0,
+                        }}
+                        viewport={{
+                            once: true,
+                        }}
                     >
-                        {/* =========================================
-        CALENDAR BACKGROUND / RAMKA
-    ========================================= */}
 
                         <img
                             src="/map.png"
@@ -568,30 +523,15 @@ function App() {
                             className="calendar-frame"
                         />
 
-
-                        {/* =========================================
-        CALENDAR CONTENT
-    ========================================= */}
-
                         <div className="calendar_overlay">
-
-                            {/* TITLE */}
 
                             <p className="calendar_title">
                                 Il Nostro Giorno
                             </p>
 
-
-                            {/* DATE */}
-
                             <h2>
                                 30 SEPTEMBER 2026
                             </h2>
-
-
-                            {/* =====================================
-            CALENDAR CARD
-        ===================================== */}
 
                             <div className="calendar_card">
 
@@ -599,10 +539,7 @@ function App() {
                                     SEPTEMBER
                                 </div>
 
-
                                 <div className="calendar">
-
-                                    {/* WEEK DAYS */}
 
                                     {[
                                         "M",
@@ -611,59 +548,56 @@ function App() {
                                         "T",
                                         "F",
                                         "S",
-                                        "S"
-                                    ].map((day, index) => (
-                                        <div
-                                            key={index}
-                                            className="day_name"
-                                        >
-                                            {day}
-                                        </div>
-                                    ))}
+                                        "S",
+                                    ].map(
+                                        (
+                                            day,
+                                            index
+                                        ) => (
+                                            <div
+                                                key={index}
+                                                className="day_name"
+                                            >
+                                                {day}
+                                            </div>
+                                        )
+                                    )}
 
-
-                                    {/* =================================
-                    SEPTEMBER 2026
-
-                    1-sentabr — Seshanba
-                    Shuning uchun 1 ta empty
-                    katak bor.
-                ================================= */}
+                                    {/* 1-SENTABR 2026 — SESHANBA */}
 
                                     <div className="day empty_day"></div>
 
-
-                                    {/* =================================
-                    1 - 30
-                ================================= */}
-
                                     {Array.from(
-                                        { length: 30 },
-                                        (_, index) => {
-
-                                            const day = index + 1;
+                                        {
+                                            length: 30,
+                                        },
+                                        (
+                                            _,
+                                            index
+                                        ) => {
+                                            const day =
+                                                index + 1;
 
                                             return (
                                                 <div
-                                                    key={day}
+                                                    key={
+                                                        day
+                                                    }
                                                     className={
-                                                        day === 30
+                                                        day ===
+                                                        30
                                                             ? "day active_day"
                                                             : "day"
                                                     }
                                                 >
-
                                                     {day}
 
-
-                                                    {/* 30-SENTABR */}
-
-                                                    {day === 30 && (
-                                                        <span className="heart">
-                                        ♥
-                                    </span>
-                                                    )}
-
+                                                    {day ===
+                                                        30 && (
+                                                            <span className="calendar-heart">
+                                                            ♥
+                                                        </span>
+                                                        )}
                                                 </div>
                                             );
                                         }
@@ -673,15 +607,21 @@ function App() {
 
                             </div>
 
-                            <h2 className="jas">Bu biz uchun muxim  sana<br/> va ushbu  kunda  sizni <br/> kutib qolamiz!!!</h2>
+                            <h2 className="jas">
+                                Bu biz uchun muhim sana
+                                <br />
+                                va ushbu kunda sizni
+                                <br />
+                                kutib qolamiz!!!
+                            </h2>
 
                         </div>
 
                     </motion.section>
 
-                    {/* =================================
+                    {/* =================================================
                         TO'Y DASTURI
-                    ================================= */}
+                    ================================================= */}
 
                     <section className="program-section">
 
@@ -711,7 +651,6 @@ function App() {
 
                             </div>
 
-
                             <div className="timeline-item right">
 
                                 <div className="program-info">
@@ -734,7 +673,6 @@ function App() {
 
                             </div>
 
-
                             <div className="timeline-item left">
 
                                 <img
@@ -756,7 +694,6 @@ function App() {
                                 </div>
 
                             </div>
-
 
                             <div className="timeline-item right">
 
@@ -784,10 +721,9 @@ function App() {
 
                     </section>
 
-
-                    {/* =================================
+                    {/* =================================================
                         LOCATION
-                    ================================= */}
+                    ================================================= */}
 
                     <section className="location-section">
 
@@ -844,10 +780,11 @@ function App() {
                                     <br />
                                     Toshkent shahri
                                 </p>
+
                                 <a
                                     href="https://www.google.com/maps/search/?api=1&query=Versal+Restaurant+Beruniy+8A+Tashkent"
                                     target="_blank"
-                                    rel="noreferrer"
+                                    rel="noopener noreferrer"
                                     className="location-button"
                                 >
                                     Xaritada ko‘rish
@@ -863,10 +800,9 @@ function App() {
 
                     </section>
 
-
-                    {/* =================================
+                    {/* =================================================
                         FOOTER
-                    ================================= */}
+                    ================================================= */}
 
                     <section className="footer-section">
 
@@ -884,16 +820,22 @@ function App() {
 
                             <h2 className="footer-names">
                                 Doniyor
-                                <span>&amp;</span>
+                                <span>
+                                    &amp;
+                                </span>
                                 Robiyaxon
                             </h2>
 
                             <div className="footer-date">
 
-                                <span>14</span>
+                                <span>30</span>
+
                                 <b>•</b>
-                                <span>08</span>
+
+                                <span>09</span>
+
                                 <b>•</b>
+
                                 <span>2026</span>
 
                             </div>
@@ -909,6 +851,7 @@ function App() {
                             <div className="footer-heart">
                                 ♡
                             </div>
+
 
                         </div>
 

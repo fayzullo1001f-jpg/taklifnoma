@@ -2544,19 +2544,42 @@ position: relative;
    HEART
 ========================================================= */
 
-.heart {
+.invitation-heart {
     position: absolute;
 
-    top: -7px;
+    top: 70%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid #d99baa;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 30px;
+
+    color: #bd617a;
+
+    font-family: serif;
+}
+.calendar-heart {
+    position: absolute;
+
+    top: -6px;
     right: -5px;
 
-    font-size: 9px;
+    font-size: 8px;
 
     line-height: 1;
 
     color: #c99a5d;
 }
-
 
 /* =========================================================
    MOBILE
